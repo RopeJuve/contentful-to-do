@@ -1,20 +1,25 @@
-
+import { useState } from 'react'
+import { useBoard } from '../../context/BoardContext'
 import Button from '../Button/Button'
+import Modal from '../Modal/Modal'
 import ThemeContainer from '../ThemeContainer/ThemeContainer'
 import styles from './SideBar.module.css'
 
 
 
-const SideBar = ({board}) => {
+const SideBar = () => {
+  const [createBoardModal, setCreteBoardModal] = useState(false)
+
+  const { boards, setSelectedBoard, selectedBoard } = useBoard()
 
   return (
     <aside className={styles.container}>
       <div className={styles.top}>
-        <h4> all boards ({board?.length})</h4>
-        {board?.map((item, index) => {
+        <h4> all boards ({boards?.length})</h4>
+        {boards?.map((item, index) => {
           return (
-            board?.fields?.title === item.fields.title ? (
-              <Button key={item.id} variant="aside" onClick={() => { }}>
+            selectedBoard.title === item.title ? (
+              <Button key={item.id} variant="aside" onClick={() => setSelectedBoard(boards[index])}>
                 <svg
                   className={styles.icon}
                   width="16"
@@ -26,10 +31,10 @@ const SideBar = ({board}) => {
                     fill=""
                   />
                 </svg>
-                {item.fields.title}
+                {item.title}
               </Button>
             ) : (
-              <Button key={item.id} variant="inActive" onClick={() => handleClick(index, item.id)} >
+              <Button key={item.id} variant="inActive" onClick={() => setSelectedBoard(boards[index])} >
                 <svg
                   className={styles.iconInActive}
                   width="16"
@@ -41,13 +46,13 @@ const SideBar = ({board}) => {
                     fill=""
                   />
                 </svg>
-                {item.fields.title}
+                {item.title}
               </Button>
             )
           )
         }
         )}
-        <Button variant="createBoard" onClick={() => setOpenModal(true)}>
+        <Button variant="createBoard" onClick={() => setCreteBoardModal(true)}>
           <svg
             className={styles.createBoardIcon}
             width="16"
@@ -61,6 +66,7 @@ const SideBar = ({board}) => {
           </svg>
           + Create New Board
         </Button>
+        {createBoardModal && <Modal variant='addBoard' remove={() => setCreteBoardModal(false)} />}
       </div>
       <div className={styles.bottom}>
         <ThemeContainer checked={true} />

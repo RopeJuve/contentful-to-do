@@ -12,11 +12,11 @@ const Column = ({ column }) => {
     return (
         <div className={styles.container}>
             <div className={styles.heading}>
-                <div className={styles.circle} style={{ backgroundColor: `${bgColor[column?.fields?.title]}` }}></div>
-                <h3>{column?.fields?.title}</h3>
+                <div className={styles.circle} style={{ backgroundColor: `${bgColor[column?.title]}` }}></div>
+                <h3>{column?.title}</h3>
             </div>
             <div className={styles.taskWrapper}>
-                {column?.fields?.tasks?.map((task) => (
+                {column?.tasks?.map((task) => (
                     <Card key={task?.id} task={task} />
                 ))}
             </div>

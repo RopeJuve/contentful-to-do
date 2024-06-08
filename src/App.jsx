@@ -1,12 +1,14 @@
 import BoardPage from "./components/BoardPage"
-
+import { BoardProvider } from "./context/BoardContext"
 
 function App() {
-  
+
 
   return (
     <>
-     <BoardPage />
+      <BoardProvider>
+        <BoardPage />
+      </BoardProvider>
     </>
   )
 }
