@@ -2,8 +2,12 @@ import { useState } from 'react'
 import styles from './AddTaskModal.module.css'
 import Button from "../Button/Button"
 import Input from "../Input/Input"
+import { addTaskToColumn } from '../../creteData/createData'
+import { useBoard } from '../../context/BoardContext'
 
-const AddTaskModal = () => {
+const AddTaskModal = ({ remove }) => {
+    const { selectedBoard, getAll } = useBoard();
+    const { id } = selectedBoard;
     const [formData, setFormData] = useState({
         title: '',
         taskDescription: '',
@@ -12,12 +16,29 @@ const AddTaskModal = () => {
     });
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-            setFormData({ ...formData, [name]: value });
+        setFormData({ ...formData, [name]: value });
     }
 
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const { title, taskDescription, status } = formData;
+        if (!title || !taskDescription) {
+            alert('Please fill all the fields');
+            return;
+        }
+        const columnId = selectedBoard.columns.find(column => column.title === status).id;
+        console.log(columnId)
+        const taskData = {
+            title,
+            taskDescription,
+            isCompleted: false
+        }
+        console.log(taskData)
+
+        addTaskToColumn(id, columnId, formData);
+        getAll();
+        remove();
     }
     return (
         <form className={styles.container} onSubmit={handleSubmit}>

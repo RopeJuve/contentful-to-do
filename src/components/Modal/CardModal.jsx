@@ -3,7 +3,6 @@ import dots from '../../assets/icon-vertical-ellipsis.svg';
 import Button from '../Button/Button';
 
 const CardModal = ({ task, onClose}) => {
-    console.log(location)
     const { title, taskDescription, id } = task;
     
     const handleMenuToggle = () => {
